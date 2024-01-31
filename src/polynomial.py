@@ -48,3 +48,12 @@ class Polynomial:
 
     def __truediv__(self, other: Polynomial) -> tuple[Polynomial, Polynomial]:
         pass
+
+    def dft(self) -> Polynomial:
+        pass
+
+    def lcd(self) -> int:
+        pass
+
+    def deg(self) -> int:
+        pass
