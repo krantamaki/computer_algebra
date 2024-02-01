@@ -36,12 +36,31 @@ def check_array(func: Callable[[Any], Any]) -> Callable[[Any], Any]:
             base = kwargs["base"]
 
         assert array.dtype == np.int32 or array.dtype == np.int64, f"Coefficients must be integers! (type: {array.dtype})"
-        assert (np.abs(array) < base).all(), "Coefficients must be modulo base!"
+        assert (np.abs(array) < base).all(), "Coefficients must less than the base!"
 
         return func(*args, **kwargs)
 
     return check_array_wrapper
 
 
+## Function for computing the inverse of a unit in some ring Z_b using 
+#  the adapted Euclidean algorithm
+#  @exception ValueError Raises ValueError if unit is not invertible (is not a unit)
+#  @param unit The unit of which inverse is computed
+#  @param b The modulo respect to which the ring is defined
+def unit_inv(unit: int, b: int) -> int:
+    t, t_upd = 0, 1
+    r, r_upd = b, unit
 
+    while r_upd != 0:
+        quo = r // r_upd
 
+        t, t_upd = t_upd, t - quo * t_upd
+        r, r_upd = r_upd, r - quo * r_upd
+
+    if r > 1:
+        raise ValueError("Passed unit is not invertible!")
+    if t < 0:
+        t += b
+
+    return t
