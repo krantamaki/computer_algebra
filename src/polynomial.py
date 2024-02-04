@@ -75,7 +75,7 @@ class Polynomial:
     #  @param x The point of evaluation. Optional and if not passed the polynomial
     #  will be evaluated at the base
     def __call__(self, x: int = None) -> str:
-        pass
+        return sum([self.__coefs[i] * (x ** i) for i in range(self.__deg + 1)]) % self.__base
 
     ## Get an individual coefficient from the coefficient array
     #  @param key The key by which coefficient is accessed. Should be the index of
@@ -172,7 +172,6 @@ class Polynomial:
     ## Slow O((n + m)^2) implementation of polynomial division. Used for debugging
     @check_objects
     def _slow_div(self, other: Polynomial) -> tuple[Polynomial, Polynomial]:
-        import time 
         q, q_upd = Polynomial([0], base=self.__base), None
         r, r_upd = self.copy(), None
 
